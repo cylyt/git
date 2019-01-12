@@ -1,2 +1,20 @@
-11111111
-222
+git
+ 1. 在本地git仓库使用git bash
+ 2. add remote name ssh
+ 3. pull 远程库名 master
+
+
+抽象类
+  from abc import ABCMeta,abstractmethod
+  
+  metaclass=ABCMeta 类的父类为抽象类
+
+  @abstractmethod 这个装饰器装饰的方法 在子类中必须实现
+
+错误：
+  不要忘记方法后面带的()!!!!
+
+list 
+  A[1]只能替换数值用，不能加入新的元素
+  list.append()可以加入新建对象
+
