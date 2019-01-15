@@ -18,7 +18,8 @@ class ForeignUnitAdapter:
         self.jump=adaptee_method
 
     def __getattr__(self,item):
-        return getattr(self.foreign_unit,item)
+        return self.climb()
+        #return getattr(self.foreign_unit,item)
 
 if __name__=='__main__':
     elf=ElfRider()

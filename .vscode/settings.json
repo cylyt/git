@@ -1,3 +1,4 @@
 {
-    "editor.minimap.enabled": false
+    "editor.minimap.enabled": false,
+    "python.pythonPath": "C:\\Users\\lyt\\AppData\\Local\\Programs\\Python\\Python36\\python.exe"
 }
