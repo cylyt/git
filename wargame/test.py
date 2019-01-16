@@ -1,15 +1,18 @@
-def initial_number(x):
-    print("1. Initial number"
-            "(orig environment during function creation):{}".format(x))
+def test_1():
+    return 100*100
 
-    def modified_number(y):
-        print("X:{},y:{},x+y:{}".format(x,y,x+y))
+def test_2():
+    x=[]
+    for i in range(10000):
+        temp=i/1000.0
+        x.append(temp*temp)
+    return x
 
-    return modified_number
+def test_3(condition=False):
+    if condition:
+        test_3()
 
-if __name__=='__main__':
-    foo=initial_number(100)
-    print("2. Now calling this function with"
-            "its origianl environment loaded:")
-    foo(1)
-    foo(5)
+if __name__=="__main__":
+    a=test_1()
+    b=test_2()
+    c=test_3(True)
