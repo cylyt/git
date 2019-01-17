@@ -20,11 +20,26 @@ list
   A[1]只能替换数值用，不能加入新的元素
   list.append()可以加入新建对象
 
+  解压序列赋值给多个变量 可用*变量名代表任意多个赋值
+  字符的split中也可用多变量赋值
+
 类
   建立类的参数，可以传入def的函数
   实例的方法可以赋值为另一个方法
   strategypattern.py
   可以借用其余类的方法
+
+内建函数
+  all(a) return True if all elements of a is True,or a is empty
+  any(a) return True if any elements of a is True,if a is empty,return False
+  callable(object) Return True if the object argument appears callable, False if not. 
+  chr(i) Unicode code point is the integer i
+  @classmethod
+
+
+
+
+
 
   
 
