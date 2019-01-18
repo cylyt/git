@@ -36,6 +36,73 @@ list
   chr(i) Unicode code point is the integer i
   @classmethod
 
+正则表达式
+  import re
+  创建正则表达对象 正则变量=re.compile(r'(\d\d\d-\d\d\d))
+  匹配Regex对象 匹配变量=正则变量.search('需查找的字符')
+  匹配变量group() groups()
+  用括号分组
+  用管道|表达或的关系 (r'aaa(bbb|ccc)) aaa为固定前缀
+  ？匹配0次或者1次
+  *匹配0次或多次
+  +匹配1次或多次
+  {3}匹配固定次数 {3,5}3-5次
+  非贪心模式，后面加？   {3，5}匹配5 {3,5}？匹配3
+  findall 如果正则表达式没有分组，返回一个列表，
+  如果有分组，返回一个字符串元组的列表
+
+  字符分类
+  /d 0-9的任何数字 /D 除0-9之外的字符
+  /w 字母、数字或下划线
+  /s 匹配空白
+
+  自己的分类
+  re.compile(r'[abcd])在这个类中的字符
+  re.compile(r'[^abcd])不在这个类中的字符
+
+  插入字符和美元字符
+  re.compile(r'^hello')必须匹配hello开头的字符
+  re.compile(r'hello$')必须匹配hello结尾的字符
+  通配符
+  .匹配一个字符
+  .*匹配任意个字符 但不包括换行符
+  re.compile('.*',re.DOTALL) 匹配所有字符包括换行符
+  re.I 不区分大小写的匹配
+  sub()方法 替换字符
+  re.VERBOSE 正则多行表达式 忽略之前的换行和注释
+
+文件操作
+  import os
+  os.getcwd()得到当前路径
+  os.chdir('C:\\')切换当前路径
+  os.makedirs('C:\\AA')创建新文件夹
+  os.path.abspath(path)返回绝对路径
+  os.path.isabs(path)
+  os.path.relpath(path,start)开始和路径之间的字符
+  os.path.dirname(path)路径名
+  os.path.basename(path)文件名
+  os.path.split()文件名和路径名分开
+  splitos.path.sep
+  os.path.getsize(path)文件大小
+  os.listdir(path)文件名字符串列表
+  os.path.exists(path)
+  os.path.isfile(path)
+  os.path.isdir(path)
+
+  .read()
+  .readline()
+  .write()
+  .close()
+  shelve.open
+          
+
+
+
+
+
+
+
+
 
 
 
