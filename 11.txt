@@ -94,7 +94,20 @@ list
   .write()
   .close()
   shelve.open
-          
+
+  shutil.copy(源文件，目标文件位置) 复制文件
+  shutil.copytree()复制文件夹内所有文件
+  shutil.move
+  os.unlink(path)删除文件
+  os.rmdir(path)删除文件夹 文件夹必须为空
+  shutil.rmtree(path)删除所有文件和文件夹
+  send2trash
+
+  os.walk()遍历目录树
+  返回三个值，文件夹名称，子文件夹列表，文件列表
+  os.listdir()遍历所有文件
+
+
 
 
 
