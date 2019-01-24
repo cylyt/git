@@ -107,6 +107,11 @@ list
   返回三个值，文件夹名称，子文件夹列表，文件列表
   os.listdir()遍历所有文件
 
+requests
+  requests.get('http://**')
+  变量.status_code==requests.codes.ok 检查是否下载成功
+  变量.raise_for_status()
+
 
 
 
