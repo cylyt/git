@@ -1,11 +1,14 @@
-import openpyxl,pprint
+from openpyxl import *
+import pprint
+from openpyxl import Workbook
 print('Opening workbook....')
-wb=openpyxl.load_workbook('censuspopdata.xlsx')
+wb=load_workbook('censuspopdata.xlsx')
 sheet=wb.get_sheet_by_name('Population by Census Tract')
 countyData={}
 
+
 print('Reading rows....')
-for row in range(2,sheet.get_highest_row()+1):
+for row in range(2,sheet.max_row):
     state=sheet['B'+str(row)].value
     county=sheet['C'+str(row)].value
     pop=sheet['D'+str(row)].value
@@ -15,3 +18,4 @@ for row in range(2,sheet.get_highest_row()+1):
 
     countyData[state][county]['tracts']+=1
     countyData[state][county]['pop']+=int(pop)
+print(countyData)

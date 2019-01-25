@@ -112,6 +112,63 @@ requests
   变量.status_code==requests.codes.ok 检查是否下载成功
   变量.raise_for_status()
 
+openpyxl
+  from openpyxl import Workbook
+  Workbook() #create new workbook
+  wb.save('aa.xlsx') #save file
+  wb=load_workbook('test.xlsx') #open file data_only
+  wb.active #the worksheet that is acived
+  wb.create_sheet("sheetname",0) #'0' means insert at first position
+  ws.title='New title' #change name
+  ws.sheet_properties.tabColor='RRGGBB' #change background color of tabColor
+  ws=wb['Sheet1'] #get a sheet 
+  wb.sheetnames #all the sheets'name
+  wb.copy_worksheet(source) #create copies of worksheets  image and charts not copied
+  wb.remove_sheet(wb.get_sheet_by_name('aa'))
+
+  ws['A4']
+  ws.cell(row=4,column=2,value=10)
+  ws['A1':'C2']
+  ws['C']
+  ws[10]
+  ws.iter_rows(min_row=1,max_col=3,max_row=3) #return rows
+  ws.iter_cols() #not available in read-only mode
+  ws.max_row
+  ws.max_column
+
+  tuple(ws.rows) #iterate through all the rows
+  tuple(ws.columns)
+  ws.values
+
+  from openpyxl.utils import get_column_letter
+
+  ws.merge_cells('A2:D2')
+  ws.unmerge_cells('A2:D2')
+
+  image=Image('logo.png')
+  ws.add_image(img,'A1')
+
+  ws.column_dimensions.group('A','D',hidden=True)
+
+  ws.insert_rows(7)
+  ws.delete_cols(6,3)
+
+  字体，风格
+  openpyxl.styles import Font,style
+  Font对象 Font(name='Calibri',size=14,bold=True,italic=True)
+  style对象 =Style(font=font对象)
+  ws['A'].style/style对象
+
+  冻结窗格
+  sheet.freeze_panes='A2'
+
+
+
+
+
+
+
+
 
 
 
