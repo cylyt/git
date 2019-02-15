@@ -29,7 +29,7 @@ def check_mousedown_event(ai_settings,screen,rabbit,arrows):
     arrows.add(new_arrow)
 
 
-def check_events(ai_settings,screen,rabbit,arrows):
+def check_events(ai_setting,screen,rabbit,arrows,bad_guys):
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             sys.exit()
@@ -38,7 +38,10 @@ def check_events(ai_settings,screen,rabbit,arrows):
         elif event.type == pygame.KEYUP:
             check_keyup_events(event,rabbit)
         elif event.type == pygame.MOUSEBUTTONDOWN:
-            check_mousedown_event(ai_settings,screen,rabbit,arrows)
+            check_mousedown_event(ai_setting,screen,rabbit,arrows)
+        elif event.type == pygame.MOUSEBUTTONUP:
+            bad_guy = Bad_guy(ai_setting,screen)
+            bad_guys.add(bad_guy)
 
 
 def get_grass(ai_setting,screen):
@@ -56,17 +59,26 @@ def get_castles(screen):
     screen.blit(castle_img,(0,240))
     screen.blit(castle_img,(0,345))
 
+def get_health_bar(screen):
+    healthbar_img = pygame.image.load("image/healthbar.png")
+    screen.blit(healthbar_img,(5,5))
 
-def update_screen(ai_setting,screen,rabbit,arrows,bad_guy):
+
+
+def update_screen(ai_setting,screen,rabbit,arrows,bad_guys,score):
     screen.fill(ai_setting.bg_color)
     get_grass(ai_setting,screen)
-    get_castles(screen)   
+    get_castles(screen)  
+    get_health_bar(screen)
     for arrow in arrows.sprites():
         arrow.draw_arrow()
     rabbit.blitme()
+    for bad_guy in bad_guys.sprites():
+        bad_guy.blitme()
+    score.show_health()
     pygame.display.flip()
 
-def update_arrows(screen,arrows):
+def update_arrows(screen,arrows,bad_guys):
 
     arrows.update()
 
@@ -74,23 +86,21 @@ def update_arrows(screen,arrows):
         if arrow.rect.right >= screen.get_rect().right:
             arrows.remove(arrow)
         elif arrow.rect.bottom >= screen.get_rect().bottom:
-            arrows.remove(arrow)       
+            arrows.remove(arrow)    
 
-def create_bad_guys(ai_setting,screen,bad_guys):
+    collisions = pygame.sprite.groupcollide(arrows,bad_guys,True,True)   
 
-    bad_interval = ai_setting.bad_interval
-    bad_interval -= 1
-    if  bad_interval <= 0:
-        bad_guy = Bad_guy(ai_setting,screen)
-        bad_guy.blitme()
-        bad_guys.add(bad_guy)
-        bad_guys.update
-        bad_interval = ai_setting.bad_interval
+def update_bad_guys(ai_setting,screen,bad_guys,score):
+    
+    bad_guys.update()
 
     for bad_guy in bad_guys.copy():
         if bad_guy.rect.left <= 0:
             bad_guys.remove(bad_guy)
-    
-    pygame.display.flip()
-    
+        elif bad_guy.rect.left < 64:
+            score.health_value -= 5
+            bad_guys.remove(bad_guy)
+            
+
+
     

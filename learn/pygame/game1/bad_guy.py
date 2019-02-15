@@ -1,5 +1,6 @@
 import pygame
 from pygame.sprite import Sprite
+import random
 
 class Bad_guy(Sprite):
 
@@ -13,8 +14,8 @@ class Bad_guy(Sprite):
         self.image =  pygame.image.load("image/badguy.png")
         self.rect = self.image.get_rect()
 
-        self.rect.x = self.screen_rect.width-10
-        self.rect.y = 10
+        self.rect.x = self.screen_rect.width-30
+        self.rect.y = random.randint(20,ai_setting.screen_height)-20
 
         self.x = float(self.rect.x)
     
