@@ -1,4 +1,5 @@
 import pygame
+import math
 
 class Rabbit():
 
@@ -22,6 +23,8 @@ class Rabbit():
         self.center_x = float(self.rect.center[0])
         self.center_y = float(self.rect.center[1])
 
+        self.position = pygame.mouse.get_pos()
+
 
     def update(self):
 
@@ -35,6 +38,16 @@ class Rabbit():
             self.center_y += self.ai_setting.move_speed
         
         self.rect=[self.center_x,self.center_y]
+
+        
+    def rotate(self):
+        angle = math.atan2(self.position[1]-self.center_y,self.position[0]-self.center_x)
+        self.image = pygame.transform.rotate(self.image,360-angle*57.29)
+        print(angle*60)
+        self.center_x = self.center_x-self.image.get_rect().width/2
+        self.center_y = self.center_y-self.image.get_rect().height/2
+        self.rect=[self.center_x,self.center_y]
+        
 
     def blitme(self):
         self.screen.blit(self.image,self.rect)

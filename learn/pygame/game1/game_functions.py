@@ -76,6 +76,7 @@ def update_screen(ai_setting,screen,rabbit,arrows,bad_guys,score):
     for bad_guy in bad_guys.sprites():
         bad_guy.blitme()
     score.show_health()
+    score.show_time()
     pygame.display.flip()
 
 def update_arrows(screen,arrows,bad_guys):
@@ -100,6 +101,7 @@ def update_bad_guys(ai_setting,screen,bad_guys,score):
         elif bad_guy.rect.left < 64:
             score.health_value -= 5
             bad_guys.remove(bad_guy)
+
             
 
 

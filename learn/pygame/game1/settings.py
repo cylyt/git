@@ -13,6 +13,8 @@ class Settings():
 
         self.bad_interval=10
 
+        self.win_time = 10000
+
 
         
 

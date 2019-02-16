@@ -22,6 +22,7 @@ def run_game():
     while True:
         gf.check_events(ai_setting,screen,rabbit,arrows,bad_guys)
         rabbit.update()
+        rabbit.rotate()
         gf.update_arrows(screen,arrows,bad_guys)
         gf.update_bad_guys(ai_setting,screen,bad_guys,score)
         gf.update_screen(ai_setting,screen,rabbit,arrows,bad_guys,score)
