@@ -5,7 +5,8 @@ class Bird(pygame.sprite.Sprite):
     def __init__(self,screen_width,screen_height):
         pygame.sprite.Sprite.__init__(self)
 
-        self.ori_bird = pygame.iamge.load("image/bird.png")
+        self.ori_bird = pygame.image.load("image/bird.png")
+        self.rotated_bird = pygame.image.load("image/bird.png")
         self.rect = self.rotated_bird.get_rect()
 
         self.screen_width = screen_width
@@ -28,7 +29,7 @@ class Bird(pygame.sprite.Sprite):
         self.set_bird()
 
     def set_bird(self):
-        self.rotated_bird = pygame.transform.rotate(self.ori_bird,self.angel)
+        self.rotated_bird = pygame.transform.rotate(self.ori_bird,self.angle)
         delta_width = (self.rotated_bird.get_rect().width - self.ori_bird.get_rect().width)/2
         delta_height = (self.rotated_bird.get_rect().height - self.ori_bird.get_rect().height)/2
         self.rect.left, self.rect.top = self.x - delta_width, self.y - delta_height

@@ -5,7 +5,7 @@ class pipeHead(pygame.sprite.Sprite):
     def __init__(self):
         pygame.sprite.Sprite.__init__(self)
         self.pipe_head = pygame.image.load("image/pipe_head.png")
-        self.img = self.pip_head
+        self.img = self.pipe_head
         self.rect = self.pipe_head.get_rect()
         self.height = self.pipe_head.get_height()
         self.width = self.pipe_head.get_width()
@@ -24,7 +24,7 @@ class Pipe():
 
         self.screen_width = screen_width
         self.screen_height = screen_height
-        self.max_pipe_body = (self.screen_height - 2*pipeHead().height)//pipeBody.height
+        self.max_pipe_body = (self.screen_height - 2*pipeHead().height)//pipeBody().height
         self.interspace = 8
         self.n_up_pipe_body = random.randint(0,self.max_pipe_body-self.interspace)
         self.n_down_pipe_body = self.max_pipe_body - self.interspace - self.n_up_pipe_body
