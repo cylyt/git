@@ -147,11 +147,22 @@ class AttackOfTheOres:
         print("Current occupants: %s" %self.get_occupants())
         while verifying_choice:
             user_choice = input("Choose a hut number to enter:")
-            idx = int(user_choice)
-            if self.huts[idx-1].is_acquired:
-                print("you have acquired this hut")
-            else:
-                verifying_choice = False
+
+            try:
+                idx = int(user_choice)
+            except ValueError as e:
+                print("Invalid input, args: %s \n" %e.args)
+                continue
+            
+            try:
+                if self.huts[idx-1].is_acquired:
+                    print("you have acquired this hut")
+                else:
+                    verifying_choice = False
+            except IndexError:
+                print("Invalid input: ", idx)
+                print("Number should be in  the range 1-5")
+                continue
         return idx        
     
     def _occupy_huts(self):
