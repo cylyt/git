@@ -1,4 +1,4 @@
-from abstractgameunit import AbstractGameUnit
+from .abstractgameunit import AbstractGameUnit
 
 class Knight(AbstractGameUnit):
 

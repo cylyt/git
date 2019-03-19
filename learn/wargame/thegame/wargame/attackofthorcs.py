@@ -1,7 +1,7 @@
 import random
-from hut import Hut
-from knight import Knight
-from orcrider import OrcRider
+from .hut import Hut
+from .knight import Knight
+from .orcrider import OrcRider
 
 class AttackOfTheOres:
 
