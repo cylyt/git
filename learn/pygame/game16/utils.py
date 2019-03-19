@@ -5,7 +5,7 @@ import pygame
 from config import *
 
 class gemSprit(pygame.sprite.Sprite):
-    def __init__(self.img_path,size,position,downlen,**kwargs):
+    def __init__(self, img_path, size, position, downlen, **kwargs):
         pygame.sprite.Sprite.__init__(self)
         self.image = pygame.image.load(img_path)
         self.image = pygame.transform.smoothscale(self.image, size)
@@ -22,7 +22,7 @@ class gemSprit(pygame.sprite.Sprite):
     
     def move(self):
         if self.direction == 'down':
-            slef.rect.top = min(self.target_y, self.rect.top +self.speed_y)
+            self.rect.top = min(self.target_y, self.rect.top +self.speed_y)
             if self.target_y == self.rect.top:
                 self.fixed = True
         elif self.direction == 'up':
@@ -43,5 +43,36 @@ class gemSprit(pygame.sprite.Sprite):
     
     def setPosition(self,position):
         self.rect.left, self.rect.top = position
-        
 
+class gemGame():
+    def __init__(self, screen, font, gem_imgs, **lwwargs):
+        self.screen = screen
+        self.font = font
+        self.gem_imgs = gem_imgs
+        self.reset()
+    
+    def start(self):
+        clock = pygame.time.Clock()
+        overall_moving = True
+        individual_moving = False
+        gem_selected_xy = None
+        gem_selected_xy2 = None
+        swap_again = False
+        add_score = 0
+        add_score_showtimes = 10
+        time_pre = int(time.time())
+
+        while True:
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    pygame.quit()
+                    sys.exit()
+                elif event.type == pygame.MOUSEBUTTONUP:
+                    if (not overall_moving) and (not individual_moving) and (not add_score):
+                        position = pygame.mouse.get_pos()
+                        if gem_selected_xy is None:
+                            gem_selected_xy = self.checkSelected(position)
+
+
+
+    
