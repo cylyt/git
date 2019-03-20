@@ -5,13 +5,14 @@ class Food(pygame.sprite.Sprite):
 
     def __init__(self,screenWidth,screenHeight):
         pygame.sprite.Sprite.__init__(self)
-        self.img == ['./img/apple.png', './img/gold.png']
-        self.kind == random.randint(0,1)
-        self.value == 10 if self.kind == 0 else 100
 
-        self.speed == 3 if self.kind ==0 else 6
-        self.image == pygame.image.load(self.img[self.kind].convert_alpha())
-        self.rect == self.image.get_rect()
+        self.imgs = ["img/apple.png", "img/gold.png"]
+        self.kind = random.randint(0,1)
+        self.value = 10 if self.kind == 0 else 100
+
+        self.speed = 3 if self.kind == 0 else 6
+        self.image = pygame.image.load(self.imgs[self.kind]).convert_alpha()
+        self.rect = self.image.get_rect()
         self.x = random.randint(0, screenWidth-self.rect.width)
         self.y = -50
         self.rect.left, self.rect.top = self.x, self.y
@@ -33,9 +34,17 @@ def main():
     screen = pygame.display.set_mode([screenWidth,screenWidth])
     pygame.display.set_caption('gold')
     clock = pygame.time.Clock()
+    foodGroup = pygame.sprite.Group()
+    foodInterval = 100
+    foodCount = 0
+    
+    
 
     while True:
+        screen.fill([0,160,233])
         food = Food(screenWidth,screenHeight)
+        food.move()
+        food.draw(screen)
         pygame.display.flip()
 
         for event in pygame.event.get():
