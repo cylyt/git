@@ -13,9 +13,9 @@ def getScore():
         score = 0
     return score
 
-def saveScore():
+def saveScore(score):
     with open('score', 'w') as f:
-		f.write(score)
+        f.write(score)
 
 
 class Farmer(pygame.sprite.Sprite):
@@ -95,7 +95,7 @@ def GameOver(screen,width,height,score,highest):
     tfont = pygame.font.Font('./font/simkai.tff',width//10)
     cfont = pygame.font.Font('./font/simkai.tff',width//20)
     title = tfont.render('GameOver', True, (255, 0, 0))
-    content = cfont.render('Score: %s, Highest: ' %(score, highest))
+    content = cfont.render('Score: %s, Highest: %s' %(score, highest))
     trect = title.get_rect()
     trect.midtop = (width/2, height/4)
     crect = content.get_rect()
