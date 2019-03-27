@@ -1,5 +1,20 @@
+import os
+import sys
+import random
 import pygame
 
+WIDTH = 956
+HEIGHT = 560
+
+def BUTTON(screen, position,text):
+    bwidth = 310
+    bheight = 65
+    left, top = position
+    pygame.draw.line(screen, (150, 150, 150),(left,top),(left+bwidth, top), 5)
+    pygame.draw.line(screen,(150,150,150),(left,top-2),(left.top+bheight), 5)
+    pygame.draw.line(screen,(50,50,50),(left, top+bheight),(left+bwidth, top+bheight), 5)
+    pygame.draw.line(screen,(50, 50, 50), (left+bwidth, top+bheight),(left+bwidth, top), 5)
+    pygame.draw
 class Bullet(pygame.sprite.Sprite):
     def __init__(self):
         pass
