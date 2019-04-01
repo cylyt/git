@@ -67,35 +67,137 @@ class Asteroid(pygame.sprite.Sprite):
         self.rect.left, self.rect.top = self.position
         self.speed = random.randrange(3, 9)
         self.angle = 0
-        self.angular_velocity = 
-
+        self.angular_velocity = random.randrange(1,5)
+        self.rotate_ticks = 3
     def move(self):
-        pass
+        self.position = self.position[0], self.position[1] + self.speed
+        self.rect.left ,self.rect.top = self.position
     
     def rotate(self):
-        pass
+        self.rotate_ticks -= 1
+        if self.rotate_ticks == 0:
+            self.angle = (self.angle + self.angular_velocity) % 360
+            orig_rect = self.image.get_rect()
+            rot_image = pygame.transform.rotate(self.image, self.angle)
+            rot_rect = orig_rect.copy()
+            rot_rect.center = rot_image.get_rect().center
+            rot_image = rot_image.subsurface(rot_rect).copy()
+            self.image = rot_image
+            self.rotate_ticks = 3
+
 
     def draw(self):
-        pass
+        screen.blit(self.image, self.rect)
     
 class Ship(pygame.sprite.Sprite):
-    def __init__(self):
-        pass
+    def __init__(self, idx):
+        pygame.sprite.Sprite.__init__(self)
+        self.imgs = ['./imgs/ship.png', './imgs/ship_exploded.png']
+        self.image = pygame.image.load(self.imgs[0]).convert_alpha
+        self.explode_img = pygame.image.load(self.imgs[1]).convert_alpha
+        self.position = {'x': random.randrange(-10, 918), 'y': random.randrange(-10, 520)}
+        self.rect = self.image.get_rect()
+        self.rect.left, self.rect.top = self.position['x'], self.position['y']
 
-    def explode(self):
-        pass
+        self.speed = {'x': 10, 'y': 5}
+        self.playerIdx = idx
+        self.cooling_time = 0
+        self.explode_step = 0
 
-    def move(self):
-        pass
-    
+    def explode(self,screen):
+        img = self.explode_img.subsurface((48*(self.explode_step-1), 0), (48, 48))
+        screen.blit(img, (self.position['x'], self.position['y']))
+        self.explode_step += 1
+
+    def move(self, direction):
+        if direction == 'left':
+            self.position['x'] = max(-self.speed['x'] + self.position['x'], -10)
+        elif direction == 'right':
+            self.position['x'] = min(self.speed['x'] + self.position['x'], 918 )
+        elif direction == 'up':
+            self.position['y'] = max(-self.speed['y'] + self.position['y'], -10)
+        elif direction == 'down':
+            self.position['y'] = min(self.speed['y'] + self.position['y'], 520)
+        self.rect.left, self.rect.top = self.position['x'], self.position['y']
+
     def draw(self):
-        pass
+        screen.blit(self.image, self.rect)
     
     def shot(self):
-        pass
+        return Bullet(self.playerIdx, (self.rect.center[0] - 5, self.position['y'] - 5))
 
 def GameDemo():
-    pass
+    font = pygame.font.Font('./font/simkai.ttf', 20)
+    bg_imgs = ['./imgs/bg_big.png', './imgs/seamless_space.png', './imgs/space3.jpg']
+    bg_move_dis = 0
+    bg_1 = pygame.image.load(bg_imgs[0]).convert()
+    bg_2 = pygame.image.load(bg_imgs[1]).convert()
+    bg_3 = pygame.image.load(bg_imgs[2]).convert()
+
+    playerGroup = pygame.sprite.Group()
+    bulletGroup = pygame.sprite.Group()
+    asteroidGroup = pygame.sprite.Group()
+
+    asteroid_ticks = 90
+    for i in range(num_player):
+        playerGroup.add(Ship(i+1))
+    clock = pygame.time.Clock()
+
+    Score_1 = 0
+    Score_2 = 0
+    while True:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                sys.exit()
+        pressed_keys = pygame.key.get_pressed()
+        i = -1
+        for player in playerGroup:
+            i += 1
+            direction = None
+            if i == 0:
+                if pressed_keys[pygame.K_UP]:
+                    direction = 'up'
+                elif pressed_keys[pygame.K_DOWN]:
+                    direction = 'down'
+                elif pressed_keys[pygame.K_LEFT]:
+                    direction = 'left'
+                elif pressed_keys[pygame.K_RIGHT]:
+                    direction = 'right'
+                if direction:
+                    player.move(direction)
+                if pressed_keys[pygame.K_j]:
+                    if player.cooling_time == 0:
+                        bulletGroup.add(player.shot())
+                        player.cooling_time = 20
+            elif i == 1:
+                if pressed_keys[pygame.K_w]:
+                    direction = 'up'
+                elif pressed_keys[pygame.K_s]:
+                    direction = 'down'
+                elif pressed_keys[pygame.K_a]:
+                    direction = 'left'
+                elif pressed_keys[pygame.K_d]:
+                    direction = 'right'
+                if direction:
+                    player.move(direction)
+                if pressed_keys[pygame.K_SPACE]:
+                    if player.colling_time == 0:
+                        bulletGroup.add(player.shot())
+                        player.colling_time = 20
+            if player.cooling_time > 0:
+                player.cooling_time -= 1
+        if (Score_1 + Score_2) < 500:
+            background = bg_1
+        elif(Score_1 + Score_2) <1500:
+            background = bg_2
+        else:
+            background = bg_3
+        
+        screen.blit(background, (0, -background.get_rect()))
+
+                  
+
 
 def main():
     pygame.init()
