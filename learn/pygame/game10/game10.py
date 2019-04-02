@@ -39,7 +39,7 @@ def start_inferface(screen):
 
 
 class Bullet(pygame.sprite.Sprite):
-    def __init__(self,position,idx):
+    def __init__(self,idx,position):
         pygame.sprite.Sprite.__init__(self)
         self.imgs = ['./imgs/bullet.png']
         self.image = pygame.image.load(self.imgs[0]).convert_alpha()
@@ -61,7 +61,7 @@ class Asteroid(pygame.sprite.Sprite):
     def __init__(self):
         pygame.sprite.Sprite.__init__(self)
         self.imgs = ['./imgs/asteroid.png']
-        self.image = pygame.image.load(self.imgs[0]).convert_alpha
+        self.image = pygame.image.load(self.imgs[0]).convert_alpha()
         self.rect = self.image.get_rect()
         self.position = (random.randrange(20, WIDTH-20), -64)
         self.rect.left, self.rect.top = self.position
@@ -86,14 +86,14 @@ class Asteroid(pygame.sprite.Sprite):
             self.rotate_ticks = 3
 
 
-    def draw(self):
+    def draw(self, screen):
         screen.blit(self.image, self.rect)
     
 class Ship(pygame.sprite.Sprite):
     def __init__(self, idx):
         pygame.sprite.Sprite.__init__(self)
         self.imgs = ['./imgs/ship.png', './imgs/ship_exploded.png']
-        self.image = pygame.image.load(self.imgs[0]).convert_alpha
+        self.image = pygame.image.load(self.imgs[0]).convert_alpha()
         self.explode_img = pygame.image.load(self.imgs[1]).convert_alpha
         self.position = {'x': random.randrange(-10, 918), 'y': random.randrange(-10, 520)}
         self.rect = self.image.get_rect()
@@ -120,13 +120,13 @@ class Ship(pygame.sprite.Sprite):
             self.position['y'] = min(self.speed['y'] + self.position['y'], 520)
         self.rect.left, self.rect.top = self.position['x'], self.position['y']
 
-    def draw(self):
+    def draw(self, screen):
         screen.blit(self.image, self.rect)
     
     def shot(self):
         return Bullet(self.playerIdx, (self.rect.center[0] - 5, self.position['y'] - 5))
 
-def GameDemo():
+def GameDemo(num_player, screen):
     font = pygame.font.Font('./font/simkai.ttf', 20)
     bg_imgs = ['./imgs/bg_big.png', './imgs/seamless_space.png', './imgs/space3.jpg']
     bg_move_dis = 0
@@ -194,8 +194,72 @@ def GameDemo():
         else:
             background = bg_3
         
-        screen.blit(background, (0, -background.get_rect()))
+        screen.blit(background, (0, -background.get_rect().height +bg_move_dis))
+        screen.blit(background, (0, bg_move_dis))
+        bg_move_dis = (bg_move_dis + 2) % background.get_rect().height
 
+        if asteroid_ticks == 0:
+            asteroid_ticks = 90
+            asteroidGroup.add(Asteroid())
+        else:
+            asteroid_ticks -= 1
+        
+        for player in playerGroup:
+            if pygame.sprite.spritecollide(player, asteroidGroup, True, None):
+                player.explode_step = 1
+            elif player.explode_step > 0:
+                if player.explode_step >3:
+                    playerGroup.remove(player)
+                    if len(playerGroup) == 0:
+                        return
+                
+                else:
+                    player.explode(screen)
+            else:
+                player.draw(screen)
+        
+        for bullet in bulletGroup:
+            bullet.move()
+            if pygame.sprite.spritecollide(bullet, asteroidGroup, True, None):
+                bulletGroup.remove(bullet)
+                if bullet.playerIdx == 1:
+                    Score_1 += 1
+                else:
+                    Score_2 += 1
+            else:
+                bullet.draw(screen)
+
+        for asteroid in asteroidGroup:
+            asteroid.move()
+            asteroid.rotate()
+            asteroid.draw(screen)
+
+        Score_1_text = '玩家一得分： %s' % Score_1
+        Score_2_text = '玩家二得分： %s' % Score_2
+        text_1 = font.render(Score_1_text, True, (0, 0, 225))
+        text_2 = font.render(Score_2_text, True, (255, 0, 0))
+        screen.blit(text_1, (2, 5))
+        screen.blit(text_2, (2, 35))
+        pygame.display.update()
+        clock.tick(60)
+
+def end_interface(screen):
+    clock = pygame.time.Clock()
+    while True:
+        button_1 = BUTTON(screen,(330, 190), '重新开始')
+        button_2 = BUTTON(screen,(330, 305), '退出游戏')
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                sys.exit()
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                if button_1.collidepoint(pygame.mouse.get_pos()):
+                    return
+                elif button_2.collidepoint(pygame.mouse.get_pos()):
+                    pygame.exit()
+                    sys.exit()
+        clock.tick(60)
+        pygame.display.update()
                   
 
 
@@ -204,6 +268,14 @@ def main():
     pygame.font.init()
     screen = pygame.display.set_mode((WIDTH, HEIGHT))
     num_player = start_inferface(screen)
+    if num_player == 1:
+        while True:
+            GameDemo(num_player = 1, screen = screen)
+            end_interface(screen)
+    else:
+        while True:
+            GameDemo(num_player = 2, screen = screen)
+            end_interface(screen)
 
 
 
