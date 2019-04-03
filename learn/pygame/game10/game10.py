@@ -94,7 +94,7 @@ class Ship(pygame.sprite.Sprite):
         pygame.sprite.Sprite.__init__(self)
         self.imgs = ['./imgs/ship.png', './imgs/ship_exploded.png']
         self.image = pygame.image.load(self.imgs[0]).convert_alpha()
-        self.explode_img = pygame.image.load(self.imgs[1]).convert_alpha
+        self.explode_img = pygame.image.load(self.imgs[1]).convert_alpha()
         self.position = {'x': random.randrange(-10, 918), 'y': random.randrange(-10, 520)}
         self.rect = self.image.get_rect()
         self.rect.left, self.rect.top = self.position['x'], self.position['y']
@@ -104,10 +104,10 @@ class Ship(pygame.sprite.Sprite):
         self.cooling_time = 0
         self.explode_step = 0
 
-    def explode(self,screen):
-        img = self.explode_img.subsurface((48*(self.explode_step-1), 0), (48, 48))
-        screen.blit(img, (self.position['x'], self.position['y']))
-        self.explode_step += 1
+    def explode(self, screen):
+	    img = self.explode_img.subsurface((48*(self.explode_step-1), 0), (48, 48))
+	    screen.blit(img, (self.position['x'], self.position['y']))
+	    self.explode_step += 1
 
     def move(self, direction):
         if direction == 'left':
@@ -256,7 +256,7 @@ def end_interface(screen):
                 if button_1.collidepoint(pygame.mouse.get_pos()):
                     return
                 elif button_2.collidepoint(pygame.mouse.get_pos()):
-                    pygame.exit()
+                    pygame.quit()
                     sys.exit()
         clock.tick(60)
         pygame.display.update()

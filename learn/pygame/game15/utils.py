@@ -50,6 +50,15 @@ class gemGame():
         self.font = font
         self.gem_imgs = gem_imgs
         self.reset()
+
+    def reset(self):
+        while True:
+            self.all_gems = []
+            self.gems_group = pygame.sprite.Group()
+            for x in range(NUMGRID):
+                self.all_gems.append([])
+                
+
     
     def start(self):
         clock = pygame.time.Clock()
