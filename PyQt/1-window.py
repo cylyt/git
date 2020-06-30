@@ -27,9 +27,10 @@ class App(QWidget):
         self.move(qr.topLeft())
 
 if __name__ == '__main__':
-    app = QApplication(sys.argv) # 创建应用程序对象
+    app = QApplication(sys.argv) # 创建应用程序对象 argv为带参数启动
     ex = App()
     '''
+    大小，坐标，标题
     ex.resize(250,150)
     ex.move(300,300)
     ex.setWindowTitle('abc')

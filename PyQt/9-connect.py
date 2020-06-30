@@ -31,6 +31,8 @@ class Example(QWidget):
         #键盘事件响应
         if e.key() == Qt.Key_Escape:
             self.close()
+
+    
     
 
 
